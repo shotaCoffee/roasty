@@ -13,6 +13,10 @@ web-build/
 .DS_Store
 
 .env
-docs/
+docs/README.md
 database.rules.json
 firebase.json
+firebase/firebase.ts
+.firebase/
+.firebaserc
+public/
