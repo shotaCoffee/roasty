@@ -1,6 +1,5 @@
-import {SafeAreaView, TextInput, Button, Platform, Alert} from 'react-native';
+import {Button, Platform, SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AppImagePicker from '../component/ImagePicker';
@@ -58,7 +57,7 @@ const ShareCoffeeScreen = () => {
       <AppToast message={'NICE SHARE 👏'} visible={visible}/>
       <View style={styles.contents}>
         <View style={styles.formItem}>
-          <AppImagePicker />
+          <AppImagePicker/>
         </View>
 
         <View style={[styles.formItem, styles.datePicker]}>
@@ -69,7 +68,8 @@ const ShareCoffeeScreen = () => {
         </View>
         <View>
           {show && (
-            <DateTimePicker locale='ja' onChange={onDateChange} value={coffeeForm.postedAt} mode={'date'} display='default'/>
+            <DateTimePicker locale='ja' onChange={onDateChange} value={coffeeForm.postedAt} mode={'date'}
+                            display='default'/>
           )}
         </View>
         <View style={styles.formItem}>
@@ -127,20 +127,11 @@ const ShareCoffeeScreen = () => {
           />
         </View>
       </View>
-      <View>
-        <Text>投稿内容</Text>
-        {/*<Text>投稿日：{new Date(coffeeForm.postedAt)}</Text>*/}
-        <Text>お店：{coffeeForm.storeName}</Text>
-        <Text>産地：{coffeeForm.originName}</Text>
-        <Text>苦味：{coffeeForm.bitterTaste}</Text>
-        <Text>酸味：{coffeeForm.acidityTaste}</Text>
-      </View>
     </SafeAreaView>
   )
 }
 
 export default ShareCoffeeScreen;
-
 
 const styles = StyleSheet.create({
   container: {
