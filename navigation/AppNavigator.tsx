@@ -48,7 +48,7 @@ const FindStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Find Coffee"
+        name="FindCoffee"
         component={FindCoffeeScreen}
         options={appHeaderOptions}
       />
@@ -60,7 +60,7 @@ const ShareStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Share Coffee"
+        name="ShareCoffee"
         component={ShareCoffeeScreen}
         options={appHeaderOptions}
       />
@@ -72,7 +72,7 @@ const MyStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="My Coffees"
+        name="MyCoffees"
         component={MyCoffeesScreen}
         options={appHeaderOptions}
       />
@@ -100,20 +100,22 @@ const screenOption = ({route}: Route) => ({
         iconName = 'coffee';
         break
       default:
-        iconName = 'mug'
+        iconName = 'coffee'
     }
 
     return <FontAwesome name={iconName} size={size} color={color}/>
   },
-  tabBarVisible: route.name.name === 'Auth'
+
+  tabBarVisible: route.name.name !== 'Auth'
 })
 
+
 const AppNavigator = () => {
+
   return (
     <PaperProvider>
       <NavigationContainer>
         <Tab.Navigator screenOptions={screenOption}>
-          <Tab.Screen name="Auth" component={AuthStack}/>
           <Tab.Screen name="FindCoffee" component={FindStack}/>
           <Tab.Screen name="ShareCoffee" component={ShareStack}/>
           <Tab.Screen name="MyCoffees" component={MyStack}/>
