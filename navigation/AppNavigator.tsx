@@ -11,7 +11,6 @@ import {FontAwesome} from '@expo/vector-icons';
 
 import {Provider as PaperProvider} from 'react-native-paper';
 
-
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
