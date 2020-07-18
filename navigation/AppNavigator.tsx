@@ -10,6 +10,7 @@ import {Image, Route, View} from 'react-native';
 import {FontAwesome} from '@expo/vector-icons';
 
 import {Provider as PaperProvider} from 'react-native-paper';
+import AuthScreen from '../screens/AuthScreen';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -28,6 +29,18 @@ const LogoImage = () => {
 const appHeaderOptions = {
   headerLeft: () => (
     <LogoImage/>
+  )
+}
+
+const AuthStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ログイン"
+        component={AuthScreen}
+        options={appHeaderOptions}
+      />
+    </Stack.Navigator>
   )
 }
 
@@ -91,7 +104,8 @@ const screenOption = ({route}: Route) => ({
     }
 
     return <FontAwesome name={iconName} size={size} color={color}/>
-  }
+  },
+  tabBarVisible: route.name.name === 'Auth'
 })
 
 const AppNavigator = () => {
@@ -99,6 +113,7 @@ const AppNavigator = () => {
     <PaperProvider>
       <NavigationContainer>
         <Tab.Navigator screenOptions={screenOption}>
+          <Tab.Screen name="Auth" component={AuthStack}/>
           <Tab.Screen name="FindCoffee" component={FindStack}/>
           <Tab.Screen name="ShareCoffee" component={ShareStack}/>
           <Tab.Screen name="MyCoffees" component={MyStack}/>
