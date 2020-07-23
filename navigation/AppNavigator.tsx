@@ -11,6 +11,8 @@ import {FontAwesome} from '@expo/vector-icons';
 
 import {Provider as PaperProvider} from 'react-native-paper';
 import AuthScreen from '../screens/AuthScreen';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -91,7 +93,7 @@ const screenOption = ({route}: Route) => ({
 
     switch (route.name) {
       case 'FindCoffee':
-        iconName = 'search';
+        iconName = 'home';
         break
       case 'ShareCoffee':
         iconName = 'share-alt';
@@ -113,15 +115,18 @@ const screenOption = ({route}: Route) => ({
 const AppNavigator = () => {
 
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <Tab.Navigator screenOptions={screenOption}>
-          <Tab.Screen name="FindCoffee" component={FindStack}/>
-          <Tab.Screen name="ShareCoffee" component={ShareStack}/>
-          <Tab.Screen name="MyCoffees" component={MyStack}/>
-        </Tab.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider>
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={screenOption}>
+            <Tab.Screen name="Auth" component={AuthStack}/>
+            <Tab.Screen name="FindCoffee" component={FindStack}/>
+            <Tab.Screen name="ShareCoffee" component={ShareStack}/>
+            <Tab.Screen name="MyCoffees" component={MyStack}/>
+          </Tab.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   )
 }
 

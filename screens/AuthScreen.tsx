@@ -1,6 +1,8 @@
 import {SafeAreaView, StyleSheet, Button, Text, View, Alert, TextInput} from 'react-native';
 import React from 'react';
 import firebase, {auth, User} from 'firebase';
+import {useDispatch} from 'react-redux';
+import {updateUser} from '../store/actions/user';
 
 type AuthFormValues = {
   email: string
@@ -9,6 +11,7 @@ type AuthFormValues = {
 
 const AuthScreen = (props:any) => {
   const {navigation} = props;
+  const dispatch = useDispatch();
   const [form, setForm] = React.useState<AuthFormValues>({
     email: '',
     password: ''
@@ -23,6 +26,7 @@ const AuthScreen = (props:any) => {
       navigation.navigate('FindCoffee')
     }
     setUser(res)
+    dispatch(updateUser(res))
   }, [])
 
   React.useEffect(() => {
@@ -34,7 +38,7 @@ const AuthScreen = (props:any) => {
     setLoading(true)
     auth().signInWithEmailAndPassword(form!.email, form!.password)
       .then((res) => {
-        console.log(res)
+        dispatch(updateUser(res.user))
         navigation.navigate('FindCoffee')
       })
       .catch(e => {
@@ -50,6 +54,7 @@ const AuthScreen = (props:any) => {
     setLoading(true)
     auth().createUserWithEmailAndPassword(form!.email, form!.password)
       .then((res) => {
+        dispatch(updateUser(res.user))
         console.log(res)
       })
       .catch(e => {
