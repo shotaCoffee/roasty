@@ -11,8 +11,10 @@ type ProfileCardProps = {
 
 // TODO 画像アップロード
 export type ProfileForm = {
-  displayName: string,
-  description: string,
+  userId: string
+  displayName: string
+  email: string
+  description: string
   // profileImgUri: ''
 }
 

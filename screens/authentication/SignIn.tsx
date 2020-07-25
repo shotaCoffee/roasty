@@ -6,7 +6,6 @@ import {updateUser} from '../../store/actions/user';
 import {AuthFormValues, handleError} from './AuthenticationForm.service';
 import {useDispatch} from 'react-redux';
 import {AuthenticationStyles as styles} from './Authenticate.style';
-
 const SignInScreen = (props: any) => {
   const {navigation} = props;
   const dispatch = useDispatch();

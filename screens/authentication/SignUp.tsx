@@ -6,6 +6,7 @@ import {updateUser} from '../../store/actions/user';
 import {useDispatch} from 'react-redux';
 import {AuthFormValues} from './AuthenticationForm.service';
 import {AuthenticationStyles as styles} from './Authenticate.style';
+import {createUserData} from '../../firebase/user/user.http.service';
 
 const SignUpScreen = (props: any) => {
   const {navigation} = props;
@@ -21,8 +22,10 @@ const SignUpScreen = (props: any) => {
     setLoading(true)
     auth().createUserWithEmailAndPassword(form!.email, form!.password)
       .then((res) => {
-        dispatch(updateUser(res.user))
-        console.log(res)
+        createUserData(res.user?.uid, res.user?.displayName, res.user?.email)
+          .then(() => {
+            dispatch(updateUser(res.user))
+          })
       })
       .catch(e => {
         console.error(e)
@@ -72,7 +75,9 @@ const SignUpScreen = (props: any) => {
         </View>
         <View style={styles.description}>
           <Text>アカウントをお持ちの場合は</Text>
-          <Text style={styles.link} onPress={() => {navigation.navigate('SignIn')}}>こちら</Text>
+          <Text style={styles.link} onPress={() => {
+            navigation.navigate('SignIn')
+          }}>こちら</Text>
         </View>
       </View>
     </SafeAreaView>
