@@ -1,23 +1,32 @@
 import firebase from 'firebase';
 
-export const createUserData = (userId, name, email) => {
-  return firebase.database().ref('users/' + userId)
+export interface User {
+  uid: string;
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+  description: string | null;
+}
+
+export const createUserData = ({uid, displayName, email}: User) => {
+  return firebase.database().ref('users/' + uid)
     .set({
-      userName: name,
-      email: email
+      userName: displayName,
+      email
     });
 }
 
-export const readUser = (userId) => {
-  return firebase.database().ref('users/' + userId)
+export const readUser = ({uid}: User) => {
+  return firebase.database().ref('users/' + uid)
     .once('value')
 }
 
-export const putUser = (userId, displayName, email, description) => {
-  return firebase.database().ref('users/' + userId)
+export const putUser = ({uid, displayName, email, description}: User) => {
+  return firebase.database().ref('users/' + uid)
     .update({
       displayName,
       email,
       description
     })
 }
+

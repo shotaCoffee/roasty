@@ -1,26 +1,18 @@
 import {Button, Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
+import {User} from '../firebase/user/user.http.service';
 
 type ProfileCardProps = {
   profileImgUri?: string
-  onUpdate: (form: ProfileForm) => void
+  onUpdate: (form: User) => void
   displayName?: string
   description?: string
-  profileForm: ProfileForm
-}
-
-// TODO 画像アップロード
-export type ProfileForm = {
-  userId: string
-  displayName: string
-  email: string
-  description: string
-  // profileImgUri: ''
+  profileForm: User
 }
 
 const ProfileCard = ({profileImgUri, onUpdate, displayName, description, profileForm}: ProfileCardProps) => {
   const [editing, setEdit] = React.useState(false)
-  const [form, setForm] = React.useState<ProfileForm>(profileForm)
+  const [form, setForm] = React.useState<User>(profileForm)
 
   return (
     !editing ? (
@@ -59,13 +51,13 @@ const ProfileCard = ({profileImgUri, onUpdate, displayName, description, profile
           <TextInput
             style={styles.input}
             onChangeText={value => setForm({...form, displayName: value})}
-            value={form.displayName}
+            value={form.displayName as string}
             placeholder='名前'
           />
           <TextInput
             style={styles.input}
             onChangeText={value => setForm({...form, description: value})}
-            value={form.description}
+            value={form.description as string}
             placeholder='自己紹介'
           />
         </View>

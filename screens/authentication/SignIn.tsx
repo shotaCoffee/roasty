@@ -6,6 +6,8 @@ import {updateUser} from '../../store/actions/user';
 import {AuthFormValues, handleError} from './AuthenticationForm.service';
 import {useDispatch} from 'react-redux';
 import {AuthenticationStyles as styles} from './Authenticate.style';
+import {readUser, User} from '../../firebase/user/user.http.service';
+
 const SignInScreen = (props: any) => {
   const {navigation} = props;
   const dispatch = useDispatch();
@@ -21,7 +23,21 @@ const SignInScreen = (props: any) => {
     setLoading(true)
     auth().signInWithEmailAndPassword(form!.email, form!.password)
       .then((res) => {
-        dispatch(updateUser(res.user))
+        const userData = {
+          uid: res.user && res.user.uid ? res.user.uid : '',
+        }
+        readUser(userData.uid).then(res => {
+
+          const storeData: User = {
+            uid: userData.uid,
+            displayName: res.val().displayName,
+            email: res.val().email,
+            photoURL: res.val().photoURL,
+            description: res.val().description
+          }
+
+          dispatch(updateUser(storeData))
+        })
       })
       .catch(e => {
         Alert.alert('ログインに失敗しました')
