@@ -1,9 +1,8 @@
-import {SafeAreaView, Text, TextInput, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import React from 'react';
-import firebase, {User} from 'firebase';
+import firebase from 'firebase';
 import {useDispatch} from 'react-redux';
 import {updateUser} from '../store/actions/user';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {AuthenticationStyles as styles} from './authentication/Authenticate.style';
 import {AuthFormValues} from './authentication/AuthenticationForm.service';
 
