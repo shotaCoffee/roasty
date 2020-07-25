@@ -1,9 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Provider as PaperProvider} from 'react-native-paper';
-
-import {Provider} from 'react-redux';
-import store from '../store';
+import {useSelector} from 'react-redux';
 
 import {screenOption, Tab} from './Navigation.service';
 import AuthStack from './AuthStack';
@@ -12,19 +9,30 @@ import ShareStack from './ShareStack';
 import MyStack from './MyStack';
 
 const AppNavigator = () => {
+  const user = useSelector(state => state.user);
+
+  const log = React.useCallback(() => {
+    console.log(user)
+  }, [])
+
+  React.useEffect(() => {
+    log()
+  }, [])
+
   return (
-    <Provider store={store}>
-      <PaperProvider>
-        <NavigationContainer>
-          <Tab.Navigator screenOptions={screenOption}>
-            <Tab.Screen name="Auth" component={AuthStack}/>
-            <Tab.Screen name="FindCoffee" component={FindStack}/>
-            <Tab.Screen name="ShareCoffee" component={ShareStack}/>
-            <Tab.Screen name="MyCoffees" component={MyStack}/>
-          </Tab.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
-    </Provider>
+    !user ? (
+      <NavigationContainer>
+        <AuthStack/>
+      </NavigationContainer>
+    ) : (
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={screenOption}>
+          <Tab.Screen name="FindCoffee" component={FindStack}/>
+          <Tab.Screen name="ShareCoffee" component={ShareStack}/>
+          <Tab.Screen name="MyCoffees" component={MyStack}/>
+        </Tab.Navigator>
+      </NavigationContainer>
+    )
   )
 }
 

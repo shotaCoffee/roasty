@@ -8,6 +8,7 @@ import {AuthFormValues} from './AuthenticationForm.service';
 import {AuthenticationStyles as styles} from './Authenticate.style';
 
 const SignUpScreen = (props: any) => {
+  const {navigation} = props;
   const dispatch = useDispatch();
   const [form, setForm] = React.useState<AuthFormValues>({
     email: '',
@@ -41,10 +42,9 @@ const SignUpScreen = (props: any) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Text style={styles.heading}>Roasty</Text>
         <View>
           <View style={styles.formItem}>
-            <MaterialCommunityIcons name="email-outline" size={24} color="black"/>
+            <MaterialCommunityIcons style={styles.formIcon} name="email-outline" size={24} color="black"/>
             <TextInput
               style={styles.input}
               onChangeText={value => setForm({...form, email: value})}
@@ -54,7 +54,7 @@ const SignUpScreen = (props: any) => {
             />
           </View>
           <View style={styles.formItem}>
-            <MaterialCommunityIcons name="lock-outline" size={24} color="black"/>
+            <MaterialCommunityIcons style={styles.formIcon} name="lock-outline" size={24} color="black"/>
             <TextInput
               style={styles.input}
               onChangeText={value => setForm({...form, password: value})}
@@ -69,6 +69,10 @@ const SignUpScreen = (props: any) => {
             title="サインアップ"
             onPress={handleSignUp}
           />
+        </View>
+        <View style={styles.description}>
+          <Text>アカウントをお持ちの場合は</Text>
+          <Text style={styles.link} onPress={() => {navigation.navigate('SignIn')}}>こちら</Text>
         </View>
       </View>
     </SafeAreaView>

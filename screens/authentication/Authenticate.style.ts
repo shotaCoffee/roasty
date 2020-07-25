@@ -17,13 +17,25 @@ export const AuthenticationStyles = StyleSheet.create({
     borderColor: '#999',
     padding: 4
   },
+  formIcon: {
+    padding: 0
+  },
   input: {
-    marginLeft: 4
+    paddingLeft: 16,
   },
   buttonWrap: {
     marginTop: 16
   },
   button: {
     color: '#A6CB72'
+  },
+  description: {
+    marginTop: 32,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontSize: 16
+  },
+  link: {
+    color: '#047AFF'
   }
 })

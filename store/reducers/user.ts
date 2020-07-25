@@ -1,9 +1,8 @@
-const initialState = {}
+const initialState = null
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case 'UPDATE_USER':
       return {
-        ...state,
         user: action.user
       }
     default:

@@ -1,16 +1,26 @@
-import AuthScreen from '../screens/AuthScreen';
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {AppHeaderOptions, Stack} from './Navigation.service';
+import SignInScreen from '../screens/authentication/SignIn';
+import SignUpScreen from '../screens/authentication/SignUp';
+import FindCoffeeScreen from '../screens/FindCoffeeScreen';
 
+const HeaderOptions = {
+  ...AppHeaderOptions,
+  title: 'Roasty'
+}
 
 const AuthStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="ログイン"
-        component={AuthScreen}
-        options={AppHeaderOptions}
+        name="SignIn"
+        component={SignInScreen}
+        options={HeaderOptions}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={HeaderOptions}
       />
     </Stack.Navigator>
   )

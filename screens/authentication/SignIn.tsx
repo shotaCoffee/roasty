@@ -1,4 +1,4 @@
-import {Button, SafeAreaView, Text, TextInput, View} from 'react-native';
+import {Alert, Button, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React from 'react';
 import {auth} from 'firebase';
@@ -23,21 +23,18 @@ const SignInScreen = (props: any) => {
     auth().signInWithEmailAndPassword(form!.email, form!.password)
       .then((res) => {
         dispatch(updateUser(res.user))
-        navigation.navigate('FindCoffee')
       })
       .catch(e => {
-        console.error(e)
+        Alert.alert('ログインに失敗しました')
       })
       .finally(() => {
         setLoading(false)
       })
   }
 
-
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Text style={styles.heading}>Roasty</Text>
         <View>
           <View style={styles.formItem}>
             <MaterialCommunityIcons name="email-outline" size={24} color="black"/>
@@ -66,8 +63,16 @@ const SignInScreen = (props: any) => {
             onPress={handleSignIn}
           />
         </View>
+        <View style={styles.description}>
+          <Text>アカウントをがない場合は</Text>
+          <Text style={styles.link}
+                onPress={() => {
+                  navigation.navigate('SignUp')
+                }}>こちら</Text>
+        </View>
       </View>
     </SafeAreaView>
   )
 }
 export default SignInScreen
+
