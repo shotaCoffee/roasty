@@ -15,12 +15,13 @@ const MyCoffeesScreen = () => {
   const fetchMyTweets = React.useCallback(() => {
     getMyTweets(10, user.user.uid).then(res => {
       const data: any = Object.values(res.val());
-      setMyTweets(myTweets.concat(data))
-      console.log('data', data , 'myTweets', myTweets)
+      setMyTweets((myTweets: any) => myTweets.concat(data))
+      console.log('data', data, 'myTweets', myTweets)
     })
   }, [])
 
   React.useEffect(() => {
+    setMyTweets([])
     fetchMyTweets()
   }, [])
 
