@@ -21,6 +21,7 @@ export type Tweet = {
   comment: string
   bitterTaste: string
   acidityTaste: string
+  postedAt: Date
 }
 
 export type PostedTweet = {
@@ -33,4 +34,17 @@ export const createTweet = ({user, tweet}: PostedTweet) => {
   const postedValue = Object.assign(user, tweet)
   return firebase.database().ref(`tweets/`)
     .push(postedValue)
+}
+
+export const getAnonymousTweets = (limit: number = 10) => {
+  return firebase.database().ref(`tweets/`)
+    .limitToLast(limit)
+    .once('value')
+}
+
+export const getMyTweets = (limit: number = 10, uid: string) => {
+  return firebase.database().ref(`tweets/`)
+    .orderByChild('uid')
+    .equalTo(uid)
+    .once('value')
 }

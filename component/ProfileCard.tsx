@@ -5,8 +5,8 @@ import {User} from '../firebase/user/user.http.service';
 type ProfileCardProps = {
   profileImgUri?: string
   onUpdate: (form: User) => void
-  displayName?: string
-  description?: string
+  displayName: string | null
+  description: string | null
   profileForm: User
 }
 
