@@ -4,14 +4,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AppImagePicker from '../component/ImagePicker';
 import AppToast from '../component/AppToast';
-
-type CoffeeForm = {
-  postedAt: Date,
-  storeName: string,
-  originName: string,
-  bitterTaste: string,
-  acidityTaste: string
-}
+import {CoffeeForm} from '../firebase/tweet/tweet.http.service';
 
 const ShareCoffeeScreen = () => {
   const now = new Date();

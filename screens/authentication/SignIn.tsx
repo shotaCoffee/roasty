@@ -26,11 +26,11 @@ const SignInScreen = (props: any) => {
         const userData = {
           uid: res.user && res.user.uid ? res.user.uid : '',
         }
-        readUser(userData.uid).then(res => {
 
+        readUser(userData as User).then(res => {
           const storeData: User = {
             uid: userData.uid,
-            displayName: res.val().displayName,
+            displayName: res.val().displayName ? res.val().displayName : '',
             email: res.val().email,
             photoURL: res.val().photoURL,
             description: res.val().description
