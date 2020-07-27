@@ -1,18 +1,28 @@
-import {Button, Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {User} from '../firebase/user/user.http.service';
+import {Button, Divider, Headline, Paragraph, TextInput} from 'react-native-paper';
 
 type ProfileCardProps = {
   profileImgUri?: string
-  onUpdate: (form: User) => void
+  onUpdate: (form: User) => Promise<void>
   displayName: string | null
   description: string | null
-  profileForm: User
+  profileForm: User,
 }
 
 const ProfileCard = ({profileImgUri, onUpdate, displayName, description, profileForm}: ProfileCardProps) => {
   const [editing, setEdit] = React.useState(false)
   const [form, setForm] = React.useState<User>(profileForm)
+
+  const handleUpdate = () => {
+    onUpdate(form)
+      .finally(() => {
+        setTimeout(() => {
+          setEdit(false)
+        }, 300)
+      })
+  }
 
   return (
     !editing ? (
@@ -25,12 +35,15 @@ const ProfileCard = ({profileImgUri, onUpdate, displayName, description, profile
               resizeMethod='resize'
             />
           </View>
-          <Button onPress={() => setEdit(true)} title={'プロフィールを編集'}/>
+          <View style={styles.texts}>
+            <Headline>{displayName ? displayName : 'アカウント名を入力してみましょう'}</Headline>
+            <Paragraph>{description ? description : '自己紹介文を入力してみましょう'}</Paragraph>
+          </View>
         </View>
-        <View style={styles.main}>
-          <Text style={styles.displayName}>{displayName ? displayName : 'アカウント名を入力してみましょう'}</Text>
-          <Text style={styles.description}>{description ? description : '自己紹介文を入力してみましょう'}</Text>
+        <View style={styles.action}>
+          <Button onPress={() => setEdit(true)}>プロフィールを編集</Button>
         </View>
+        <Divider/>
       </View>
     ) : (
       <View style={styles.card}>
@@ -42,24 +55,29 @@ const ProfileCard = ({profileImgUri, onUpdate, displayName, description, profile
               resizeMethod='resize'
             />
           </View>
-          <View style={styles.buttonGroup}>
-            <Button onPress={() => onUpdate(form)} title={'プロフィールを編集'}/>
-            <Button onPress={() => setEdit(false)} title={'キャンセル'}/>
+          <View style={styles.texts}>
+            <TextInput
+              style={styles.input}
+              onChangeText={value => setForm({...form, displayName: value})}
+              value={form.displayName as string}
+              placeholder='名前'
+            />
+            <TextInput
+              style={[styles.input, styles.inputDescription]}
+              onChangeText={value => setForm({...form, description: value})}
+              value={form.description as string}
+              placeholder='自己紹介'
+            />
           </View>
         </View>
-        <View style={styles.main}>
-          <TextInput
-            style={styles.input}
-            onChangeText={value => setForm({...form, displayName: value})}
-            value={form.displayName as string}
-            placeholder='名前'
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={value => setForm({...form, description: value})}
-            value={form.description as string}
-            placeholder='自己紹介'
-          />
+        <View style={styles.buttonGroup}>
+          <Button
+            mode={'contained'}
+            onPress={handleUpdate}>プロフィールを編集</Button>
+          <Button
+            style={styles.button}
+            mode={'outlined'}
+            onPress={() => setEdit(false)}>キャンセル</Button>
         </View>
       </View>
     )
@@ -70,23 +88,22 @@ const ProfileCard = ({profileImgUri, onUpdate, displayName, description, profile
 export default ProfileCard;
 
 const styles = StyleSheet.create({
-  card: {
-    marginTop: 32
-  },
+  card: {},
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: 16
+  },
+  texts: {
+    marginLeft: 16,
   },
   avatar: {
     width: 78,
     height: 78,
     borderRadius: 50,
   },
-  main: {
-    marginTop: 8,
-    padding: 16
-  },
+  action: {},
   displayName: {
     fontSize: 16
   },
@@ -94,10 +111,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 14
   },
-  input: {},
+  input: {
+    height: 32,
+    width: 230
+  },
+  inputDescription: {
+    marginTop: 4
+  },
   buttonGroup: {
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    textAlign: 'left'
+    justifyContent: 'center',
+    flexDirection: 'row',
+    textAlign: 'left',
+    padding: 8,
+    paddingBottom: 16
+  },
+  button: {
+    marginLeft: 8
   }
 })

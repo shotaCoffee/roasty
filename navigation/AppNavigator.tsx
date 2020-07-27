@@ -12,7 +12,7 @@ const AppNavigator = () => {
   const user = useSelector(state => state.user);
 
   const log = React.useCallback(() => {
-    console.log(user)
+    console.log('app navigation user', user)
   }, [])
 
   React.useEffect(() => {
