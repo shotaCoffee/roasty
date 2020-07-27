@@ -7,6 +7,7 @@ import {getMyTweets} from '../firebase/tweet/tweet.http.service';
 import {updateUser} from '../store/actions/user';
 import TimeLineCard from '../component/TimeLineCard';
 import {RootState} from '../store';
+import { Paragraph } from 'react-native-paper';
 
 const MyCoffeesScreen = () => {
   const user = useSelector<RootState>(state => state.user);
@@ -24,6 +25,7 @@ const MyCoffeesScreen = () => {
             const data: any = Object.values(res.val());
             setMyTweets((myTweets: any) => myTweets.concat(data))
             setIsFetching(false)
+            console.log(myTweets)
           })
       } catch (e) {
         console.log(e)
@@ -84,7 +86,15 @@ const MyCoffeesScreen = () => {
           memo={rowData.item.comment}
           postedAt={now}
           originName={rowData.item.originName}
+          roasterName={rowData.item.roasterName}
+          productName={rowData.item.productName}
+          storeName={rowData.item.storeName}
         />
+      }
+      ListEmptyComponent={
+        <>
+          <Paragraph>まだ投稿がありません</Paragraph>
+        </>
       }
     />
   )
