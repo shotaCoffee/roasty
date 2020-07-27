@@ -4,9 +4,12 @@ import {createTweet, PostedTweet, Tweet} from '../firebase/tweet/tweet.http.serv
 import RNPickerSelect from 'react-native-picker-select';
 import {Button, TextInput} from 'react-native-paper';
 import {useSelector} from 'react-redux';
+import AppImagePicker from '../component/ImagePicker';
+import {v4 as uuidv4} from 'uuid';
 
 const SharePrototypeScreen = () => {
   const [form, setForm] = React.useState<Tweet>({
+    imageId: uuidv4(),
     roasterName: '',
     acidityTaste: '',
     bitterTaste: '',
@@ -44,6 +47,7 @@ const SharePrototypeScreen = () => {
     <SafeAreaView style={styles.sharePrototype}>
       <KeyboardAvoidingView behavior={'padding'}>
         <ScrollView>
+          <AppImagePicker imageId={form.imageId}/>
           <View style={styles.formItem}>
             <Text style={styles.label}>お店</Text>
             <TextInput

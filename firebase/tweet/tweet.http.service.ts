@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import {database} from '../firebase';
 
 export type CoffeeForm = {
   postedAt: Date,
@@ -14,6 +14,7 @@ export type TweetUser = {
 }
 
 export type Tweet = {
+  imageId: string
   storeName: string
   roasterName: string
   originName: string
@@ -32,18 +33,18 @@ export type PostedTweet = {
 export const createTweet = ({user, tweet}: PostedTweet) => {
   // ${user.uid}
   const postedValue = Object.assign(user, tweet)
-  return firebase.database().ref(`tweets/`)
+  return database.ref(`tweets/`)
     .push(postedValue)
 }
 
 export const getAnonymousTweets = (limit: number = 10) => {
-  return firebase.database().ref(`tweets/`)
+  return database.ref(`tweets/`)
     .limitToLast(limit)
     .once('value')
 }
 
 export const getMyTweets = (limit: number = 10, uid: string) => {
-  return firebase.database().ref(`tweets/`)
+  return database.ref(`tweets/`)
     .orderByChild('uid')
     .equalTo(uid)
     .once('value')

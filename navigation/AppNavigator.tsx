@@ -7,17 +7,10 @@ import AuthStack from './AuthStack';
 import FindStack from './FindStack';
 import ShareStack from './ShareStack';
 import MyStack from './MyStack';
+import {RootState} from '../store';
 
 const AppNavigator = () => {
-  const user = useSelector(state => state.user);
-
-  const log = React.useCallback(() => {
-    console.log('app navigation user', user)
-  }, [])
-
-  React.useEffect(() => {
-    log()
-  }, [])
+  const user = useSelector<RootState>(state => state.user);
 
   return (
     !user ? (
