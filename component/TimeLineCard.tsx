@@ -1,7 +1,7 @@
-import {View, Text, StyleSheet, Button, Image} from 'react-native';
-import {AntDesign} from '@expo/vector-icons';
-import {FontAwesome5} from '@expo/vector-icons';
+import {Button, StyleSheet, Text, View} from 'react-native';
+import {AntDesign, FontAwesome5} from '@expo/vector-icons';
 import React from 'react';
+import {Avatar, Card, Paragraph} from 'react-native-paper';
 
 export type TimeLineCardProps = {
   userThumbnailUri: string;
@@ -13,6 +13,8 @@ export type TimeLineCardProps = {
   memo: string;
   postedAt: Date;
   originName: string;
+  bitterTaste?: string;
+  acidityTaste?: string;
 }
 
 const TimeLineCard = (
@@ -25,7 +27,9 @@ const TimeLineCard = (
     productName,
     memo,
     postedAt,
-    originName
+    originName,
+    bitterTaste,
+    acidityTaste
   }: TimeLineCardProps) => {
 
   const [showMemo, toggleMemo] = React.useState(false);
@@ -39,79 +43,53 @@ const TimeLineCard = (
   }
 
   return (
-    <View style={styles.card}>
-      <View style={styles.userMeta}>
-        <View style={styles.user}>
-          <Text>
-            <Image
-              style={styles.avatar}
-              source={{uri: userThumbnailUri}}
-            />
-          </Text>
-          <Text style={styles.userName}>{userName}</Text>
-        </View>
-        <Text>{formatDate(postedAt)}</Text>
-      </View>
-      <View>
-        <Image source={{uri: thumbnail}} style={{width: 414, height: 414}}/>
-      </View>
-      <View style={styles.cardMeta}>
-        <View style={styles.contentMeta}>
+    <Card>
+      <Card.Title
+        title={userName}
+        left={() => <Avatar.Image size={36} source={{uri: userThumbnailUri}}/>}
+        right={() => <Text>{formatDate(postedAt)}</Text>}
+        rightStyle={styles.titleRight}
+      />
+      <Card.Cover source={{uri: thumbnail}} style={{width: 414, height: 414}}/>
+      <Card.Content style={styles.cardMeta}>
+        <Card.Content style={[styles.contentMeta, styles.stores]}>
           <FontAwesome5 name="store-alt" size={16} color="#666"/>
-          <Text style={styles.contentText}>{storeName} / {roasterName}</Text>
-        </View>
-        <View style={styles.contentMeta}>
-          <FontAwesome5 style={styles.origin} name="map-marker-alt" size={16} color="#666"/>
-          <Text style={[styles.contentText, styles.originText]}>{originName}</Text>
-        </View>
-        <View style={styles.contentMeta}>
-          <AntDesign style={styles.product} name="pushpin" size={16} color="#666"/>
-          <Text style={styles.contentText}>{productName}</Text>
-        </View>
-      </View>
-      <View style={styles.comment}>
-        <Button title='メモを見る' onPress={handlePress}/>
-        {
-          showMemo &&
           <View>
-            <Text>{memo}</Text>
+            <Text style={styles.contentText}>お店：{storeName}</Text>
+            <Text style={[styles.contentText, styles.next]}>ロースター：{roasterName}</Text>
           </View>
-        }
-      </View>
-    </View>
+        </Card.Content>
+        <Card.Content style={[styles.contentMeta, styles.child]}>
+          <View style={styles.places}>
+            <FontAwesome5 style={styles.origin} name="map-marker-alt" size={16} color="#666"/>
+            <Text style={[styles.contentText, styles.originText]}>{originName}</Text>
+          </View>
+          <View style={styles.places}>
+            <AntDesign style={styles.product} name="pushpin" size={16} color="#666"/>
+            <Text style={styles.contentText}>{productName}</Text>
+          </View>
+        </Card.Content>
+      </Card.Content>
+      <Card.Actions style={styles.action}>
+        <Button title={showMemo ? '閉じる' : 'メモを見る'} onPress={handlePress}/>
+      </Card.Actions>
+      {
+        showMemo &&
+        <Card.Content style={[styles.contentMeta, styles.comment]}>
+          <Paragraph>{memo}</Paragraph>
+          <Paragraph>苦味：{bitterTaste}</Paragraph>
+          <Paragraph>酸味：{acidityTaste}</Paragraph>
+        </Card.Content>
+      }
+    </Card>
   )
 }
 
 export default TimeLineCard;
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#FFF'
-  },
-  userMeta: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 8
-  },
-  user: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  userName: {
-    marginLeft: 8,
-    paddingBottom: 2
-  },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 50
-  },
   cardMeta: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    padding: 8
+    paddingTop: 8
   },
   contentMeta: {
     padding: 4,
@@ -131,5 +109,29 @@ const styles = StyleSheet.create({
   contentText: {
     marginLeft: 4
   },
-  comment: {},
+  action: {
+    flexDirection: 'column',
+    alignContent: 'flex-end',
+    alignItems: 'flex-end'
+  },
+  titleRight: {
+    paddingRight: 16
+  },
+  stores: {
+    alignItems: 'flex-start',
+  },
+  places: {
+    flexDirection: 'row'
+  },
+  child: {
+    marginTop: 8
+  },
+  next: {
+    marginTop: 4
+  },
+  comment: {
+    paddingLeft: 32,
+    flexDirection: 'column',
+    alignItems: 'flex-start'
+  }
 })

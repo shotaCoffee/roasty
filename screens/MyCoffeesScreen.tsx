@@ -89,6 +89,8 @@ const MyCoffeesScreen = () => {
           roasterName={rowData.item.roasterName}
           productName={rowData.item.productName}
           storeName={rowData.item.storeName}
+          bitterTaste={rowData.item.bitterTaste}
+          acidityTaste={rowData.item.acidityTaste}
         />
       }
       ListEmptyComponent={
